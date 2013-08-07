@@ -1,0 +1,32 @@
+@(persons: List[Person], personForm: Form[Person])
+
+@import helper._
+
+@main("Listagem") {
+
+<h4>Listar pessoas</h4>
+    
+    <h5>@persons.size pessoas(s)</h5>
+    
+    <table class="table table-striped">
+        @persons.map { person =>
+    	<tr>
+        	<td>
+                @person.id.get
+            </td>
+            <td>
+                @person.name
+            </td>
+            <td>
+                @person.bornDate
+            </td>
+            <td>
+                @form(routes.Application.deletePerson(person.id.get)) {
+                    <input type="submit" value="Del">
+                }
+            </td>
+        </tr>
+        }
+    </table>
+    
+}

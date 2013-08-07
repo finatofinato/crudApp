@@ -1,0 +1,36 @@
+@(personForm: Form[Person])
+
+@import helper._
+
+@main("Adicionar") {
+    
+    <h4>Adicionar pessoa</h4>
+    
+    @form(routes.Application.saveNewPerson, 'class -> "form-horizontal") {
+    <fieldset>
+    	<div class="form-group">
+    		<label for="id" class="col-lg-2 control-label">ID:</label>
+    		<div class="col-lg-10">
+    			<input type="text" name="id" readonly="readonly">
+    		</div>
+    	</div>
+	    
+	    <div class="form-group">
+	    	<label for="name" class="col-lg-2 control-label">Nome:</label>
+	    	<div class="col-lg-10">
+	    		<input type="text" name="name" maxlength="10">
+	    	</div>
+	    </div>
+	    
+	    <div class="form-group">
+	    	<label for="bornDate" class="col-lg-2 control-label">Data Nascimento:</label>
+			<div class="col-lg-10">
+				<input type="date" name="bornDate">
+			</div>
+		</div>
+		
+		<input type="submit" value="Criar" class="btn btn-default">
+	</fieldset>
+    }
+    
+}
