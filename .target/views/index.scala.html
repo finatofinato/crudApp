@@ -22,6 +22,7 @@
             </td>
             <td>
                 @form(routes.Application.deletePerson(person.id.get)) {
+                	<input type="hidden" name="id" value="@person.id.get">
                     <input type="submit" value="Del">
                 }
             </td>
