@@ -20,19 +20,16 @@ object Person {
   }
 
   def all(): List[Person] = DB.withConnection {
-    println("@@@@@@@@@@@@@@@ -> entrou all ");
     implicit c => SQL("select * from person").as(person *);
   }
 
   def create(name: String, bornDate: Date) = {
     var id: Option[Long] = None;
 
-    println("@@@@@@@@@@@@@@@ -> entrou create ");
     DB.withConnection { implicit c =>
       id = SQL("insert into person (name, born_date) values ({name}, {born_date})").on('name -> name, 'born_date -> bornDate).executeInsert();
     }
-    println("@@@@@@@@@@@@@@@ -> saiu create e gerou id = " + id);
-    
+
     if (id != None) {
       Person(id, name, bornDate);
     } else {
@@ -41,16 +38,21 @@ object Person {
   }
 
   def delete(id: Long) {
-    println("@@@@@@@@@@@@@@@ -> entrou delete id = " + id);
     DB.withConnection { implicit c =>
       SQL("delete from person where id = {id}").on('id -> id).executeUpdate()
     }
-    println("@@@@@@@@@@@@@@@ -> saiu delete id = " + id);
+  }
+
+  def update(person: Person) = {
+    DB.withConnection { implicit c =>
+      SQL("update person set name = {name}, born_date = {born_date} where id = {id}").
+      					on('name -> person.name, 'born_date -> person.bornDate, 'id -> person.id).executeUpdate();
+    }
   }
 
   def findByPk(id: Long): Option[Person] = DB.withConnection { implicit c =>
-    println("@@@@@@@@@@@@@@@ -> entrou findByPk id = " + id);
-    val result:Option[Person] = SQL("select * from person where id = {id}").on("id" -> id).as(person *).headOption
+    val result: Option[Person] = SQL("select * from person where id = {id}").on("id" -> id).singleOpt(person);
+    //asSimple[Person](person).on("id" -> id);
     result;
   }
 

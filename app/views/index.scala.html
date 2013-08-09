@@ -18,12 +18,18 @@
                 @person.name
             </td>
             <td>
-                @person.bornDate
+                @person.bornDate.format("yyyy/MM/dd")
             </td>
             <td>
+            	<table><tr><td>
                 @form(routes.Application.deletePerson(person.id.get)) {
                     <input type="submit" value="Del">
                 }
+                </td><td>
+                @form(routes.Application.editPerson(person.id.get)) {
+                    <input type="submit" value="Edit">
+                }
+                </td></tr></table>
             </td>
         </tr>
         }

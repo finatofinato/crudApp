@@ -1,36 +1,36 @@
-@(personForm: Form[Person])
+@(personForm: Form[Person], id:Long)
 
 @import helper._
 
-@main("Adicionar") {
+@main("Editar") {
     
-    <h4>Adicionar pessoa</h4>
+    <h4>Editar pessoa</h4>
     
-    @form(routes.Application.saveNewPerson, 'class -> "form-horizontal") {
+    @form(routes.Application.updatePerson(id), 'class -> "form-horizontal") {
     <fieldset>
     	<div class="form-group">
     		<label for="id" class="col-lg-2 control-label">ID:</label>
     		<div class="col-lg-10">
-    			<input type="text" name="id" readonly="readonly">
+    			<input type="text" name="id" readonly="readonly" value="@personForm.get.id">
     		</div>
     	</div>
 	    
 	    <div class="form-group">
 	    	<label for="name" class="col-lg-2 control-label">Nome:</label>
 	    	<div class="col-lg-10">
-	    		<input type="text" name="name" maxlength="10">
+	    		<input type="text" name="name" maxlength="10" value="@personForm.get.name">
 	    	</div>
 	    </div>
 	    
 	    <div class="form-group">
 	    	<label for="bornDate" class="col-lg-2 control-label">Data Nascimento:</label>
 			<div class="col-lg-10">
-				<input type="date" name="bornDate">
+				<input type="text" name="bornDate" value="@personForm.get.bornDate.format("yyyy/MM/dd")" size="12" maxlength="10">
 			</div>
 		</div>
 		
-		<input type="submit" value="Criar" class="btn btn-default">
+		<input type="submit" value="Salvar" class="btn btn-default">
 	</fieldset>
     }
-    
+
 }
