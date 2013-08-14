@@ -14,7 +14,7 @@ object Application extends Controller {
     mapping(
       "id" -> optional(longNumber),
       "name" -> nonEmptyText(0, 10),
-      "bornDate" -> date("yyyy/MM/dd"))(Person.apply)(Person.unapply))
+      "bornDate" -> date("dd/MM/yyyy"))(Person.apply)(Person.unapply))
 
   val home = Redirect(routes.Application.persons);
 

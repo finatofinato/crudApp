@@ -15,3 +15,11 @@ POST	/persons/person				controllers.Application.saveNewPerson
 POST	/persons/person/delete/:id	controllers.Application.deletePerson(id:Long)
 GET		/persons/person/:id			controllers.Application.editPerson(id:Long)
 POST	/persons/person/:id			controllers.Application.updatePerson(id:Long)
+
+#fornecedorApp
+GET		/fornecedores						controllers.FornecedoresApplication.fornecedores
+GET 	/fornecedores/fornecedor			controllers.FornecedoresApplication.addNovoFornecedor
+POST	/fornecedores/fornecedor			controllers.FornecedoresApplication.saveNovoFornecedor
+POST	/fornecedores/fornecedor/delete/:id	controllers.FornecedoresApplication.deleteFornecedor(id:Long)
+GET		/fornecedores/fornecedor/:id		controllers.FornecedoresApplication.editFornecedor(id:Long)
+POST	/fornecedores/fornecedor/:id		controllers.FornecedoresApplication.updateFornecedor(id:Long)

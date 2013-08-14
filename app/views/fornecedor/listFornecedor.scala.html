@@ -1,0 +1,46 @@
+@(fornecedores: List[Fornecedor], fornecedorForm: Form[Fornecedor])
+
+@import helper._
+
+@main("Listagem de Fornecedores") {
+	<dl> 
+		@for(fornecedor <- fornecedores) {
+			<dt>@fornecedor.nome</dt> 
+			<dd>@fornecedor.nomeFantasia</dd>
+		} 
+	</dl>
+	
+	<table class="table table-striped">
+        @fornecedores.map { fornecedor =>
+    	<tr>
+        	<td>
+                @fornecedor.id.get
+            </td>
+            <td>
+                @fornecedor.nomeFantasia + " (" + @fornecedor.nome + ")"
+            </td>
+            <td>
+                @fornecedor.inscricaoEstadual
+            </td>
+            <td>
+                @fornecedor.inscricaoMunicipal
+            </td>
+            <td>
+                @fornecedor.dataCadastro.format("dd/MM/yyyy")
+            </td>
+            <td>
+            	<table><tr><td>
+                @form(routes.FornecedoresApplication.deleteFornecedor(fornecedor.id.get)) {
+                    <input type="submit" value="Excluir">
+                }
+                </td><td>
+                @form(routes.FornecedoresApplication.editFornecedor(fornecedor.id.get)) {
+                    <input type="submit" value="Alterar">
+                }
+                </td></tr></table>
+            </td>
+        </tr>
+        }
+    </table>
+	
+}

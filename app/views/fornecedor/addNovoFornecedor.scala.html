@@ -1,0 +1,33 @@
+@(fornecedorForm: Form[Fornecedor])
+
+@import helper._ 
+@import helper.twitterBootstrap._
+
+@main("Adicionar Novo Fornecedor") { 
+	<h2>Novo Fornecedor</h2>
+	
+	@helper.form(action = routes.FornecedoresApplication.saveNovoFornecedor(), 'class -> "form-horizontal") { 
+		<fieldset>
+			<legend> 
+				Fornecedor
+			</legend>
+			
+			@helper.inputText(fornecedorForm("nome"), '_id -> "nome", '_size -> 50, '_maxlength -> 100, '_label -> "Nome:", '_showConstraints -> false, '_showErrors -> true) 
+			@helper.inputText(fornecedorForm("cnpj"), '_id -> "cnpj", '_size -> 14, '_maxlength -> 14, '_label -> "CNPJ:", '_showConstraints -> false, '_showErrors -> true)
+			@helper.inputText(fornecedorForm("cpf"), '_id -> "cpf", '_size -> 11, '_maxlength -> 11, '_label -> "CPF:", '_showConstraints -> false, '_showErrors -> true)
+			@helper.inputText(fornecedorForm("nomeFantasia"), '_id -> "nomeFantasia", '_size -> 50, '_maxlength -> 100, '_label -> "Nome Fant.:", '_showConstraints -> false, '_showErrors -> true)
+			@helper.inputText(fornecedorForm("endereco"), '_id -> "endereco", '_size -> 50, '_maxlength -> 100, '_label -> "Endereo:", '_showConstraints -> false, '_showErrors -> true)
+			@helper.inputText(fornecedorForm("complemento"), '_id -> "complemento", '_size -> 50, '_maxlength -> 100, '_label -> "Compl:", '_showConstraints -> false, '_showErrors -> true)
+			@helper.inputText(fornecedorForm("bairro"), '_id -> "bairro", '_size -> 25, '_maxlength -> 50, '_label -> "Bairro:", '_showConstraints -> false, '_showErrors -> true)
+			@helper.inputText(fornecedorForm("cep"), '_id -> "cep", '_size -> 10, '_maxlength -> 8, '_label -> "CEP:", '_showConstraints -> false, '_showErrors -> true)
+			@helper.inputText(fornecedorForm("uf"), '_id -> "uf", '_size -> 3, '_maxlength -> 2, '_label -> "UF:", '_showConstraints -> false, '_showErrors -> true)
+			@helper.inputText(fornecedorForm("cidade"), '_id -> "cidade", '_size -> 25, '_maxlength -> 50, '_label -> "Cidade:", '_showConstraints -> false, '_showErrors -> true)
+			@helper.inputText(fornecedorForm("inscricaoEstadual"), '_id -> "inscricaoEstadual", '_size -> 3, '_maxlength -> 2, '_label -> "Insc. Est.:", '_showConstraints -> false, '_showErrors -> true)
+			@helper.inputText(fornecedorForm("inscricaoMunicipal"), '_id -> "inscricaoMunicipal", '_size -> 3, '_maxlength -> 2, '_label -> "Insc. Mun.:", '_showConstraints -> false, '_showErrors -> true)
+			@helper.inputText(fornecedorForm("fone"), '_id -> "fone", '_size -> 14, '_maxlength -> 12, '_label -> "Fone:", '_showConstraints -> false, '_showErrors -> true)
+			
+		</fieldset>
+		
+		<p><input type="submit" class="btn primary" value='Salvar'></p>
+	}
+}

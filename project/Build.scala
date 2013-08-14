@@ -11,9 +11,10 @@ object ApplicationBuild extends Build {
     	// Add your project dependencies here,
     	jdbc,
     	anorm,
-	"postgresql" % "postgresql" % "8.4-702.jdbc4"
+	"postgresql" % "postgresql" % "8.4-702.jdbc4",
+	"com.typesafe.slick" %% "slick" % "1.0.1",
+    "com.h2database" % "h2" % "1.3.166"
   )
-
 
   val main = play.Project(appName, appVersion, appDependencies).settings(
     // Add your own project settings here      
