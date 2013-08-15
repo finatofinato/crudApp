@@ -22,32 +22,27 @@ object Application extends Controller {
     home;
   }
 
-  def persons = Action {
+  def persons = Action { implicit request =>
     Ok(views.html.index(Person.all(), personForm));
   }
 
-  def addNewPerson = Action {
+  def addNewPerson = Action { implicit request =>
     Ok(views.html.addNewPerson(personForm))
   }
 
-  def saveNewPerson = Action {
-    implicit request =>
+  def saveNewPerson = Action { implicit request =>
       personForm.bindFromRequest.fold(
         errors => {
-          println("###############-> erroNewPerson \n" + errors);
           BadRequest(views.html.index(Person.all(), errors));
         },
         person => {
-          println("###############-> criou " + person.id);
           Person.create(person.name, person.bornDate);
           home;
         })
   }
 
-  def deletePerson(id: Long) = Action {
-    println("###############-> Person.delete - entrou " + id);
+  def deletePerson(id: Long) = Action { implicit request =>
     if (Person.findByPk(id) != None) {
-      println("###############-> Person.delete - ENCONTROU ID " + id);
       Person.delete(id);
     } else {
       println("###############-> Person.delete - NAO ENCONTROU ID: " + id);
@@ -55,13 +50,12 @@ object Application extends Controller {
     home;
   }
 
-  def editPerson(id: Long) = Action {
+  def editPerson(id: Long) = Action { implicit request =>
     Person.findByPk(id).map { person =>
       Ok(views.html.editPerson(personForm.fill(person), id)) }.getOrElse(NotFound)
   }
   
-  def updatePerson(id: Long) = Action {
-    implicit request =>
+  def updatePerson(id: Long) = Action { implicit request =>
       personForm.bindFromRequest.fold(
         errors => {
           println("###############-> erroUpdatePerson \n" + errors);

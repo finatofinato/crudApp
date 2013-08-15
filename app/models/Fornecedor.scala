@@ -1,19 +1,19 @@
 package models
 
-import java.util.Date
-
-import scala.slick.driver.H2Driver.simple._
-import scala.slick.driver.H2Driver.simple.Database.threadLocalSession
-import scala.slick.lifted.Query
+import anorm._
 import anorm.SqlParser._
-import play.api.Play.current
+import java.text.SimpleDateFormat
+import java.util.Date
+import scala.Some
 import play.api.db.DB
+import play.api.db._
+import play.api.Play.current
 
 case class Fornecedor(id: Option[Long], 
 						nome:String, 
 						cnpj:String, 
 						cpf:String, 
-						nomeFantasia:Option[String], 
+						nomeFantasia:Option[String],
 						endereco:Option[String], 
 						complemento:Option[String], 
 						bairro:Option[String], 
@@ -23,116 +23,58 @@ case class Fornecedor(id: Option[Long],
 						inscricaoEstadual:String, 
 						inscricaoMunicipal:String, 
 						fone:Option[String], 
-						dataCadastro:java.util.Date
-)
+						dataCadastro:Option[java.util.Date])
 
-//https://github.com/freekh/play-slick/blob/master/samples/computer-database/app/models/Models.scala
-object Fornecedores extends Table[Fornecedor]("FORNECEDOR") {
-	implicit val tm = MappedTypeMapper.base[java.util.Date, java.sql.Date](
-			x => new java.sql.Date(x.getTime),
-			x => new java.util.Date(x.getTime)
-			)
+object Fornecedores {
 
-	def id = column[Long]("id", O.PrimaryKey, O.AutoInc); 
-  	def nome = column[String]("nome"); 
-	def cnpj = column[String]("cnpj"); 
-	def cpf = column[String]("cpf"); 
-	def nomeFantasia = column[String]("nome_fantasia", O.Nullable); 
-	def endereco = column[String]("endereco", O.Nullable);
-	def complemento = column[String]("complemento", O.Nullable); 
-	def bairro = column[String]("bairro", O.Nullable);
-	def cep = column[String]("cep", O.Nullable);
-	def uf = column[String]("uf", O.Nullable);
-	def cidade = column[String]("cidade", O.Nullable);
-	def inscricaoEstadual = column[String]("ie"); 
-	def inscricaoMunicipal = column[String]("im");
-	def fone = column[String]("fone", O.Nullable);
-	def dataCadastro = column[java.util.Date]("data_cadastro");
-	def * = id.? ~ nome ~ cnpj ~ cpf ~ nomeFantasia.? ~ endereco.? ~ complemento.? ~ bairro.? ~ cep.? ~ uf.? ~ cidade.? ~ inscricaoEstadual ~ inscricaoMunicipal ~ fone.? ~ dataCadastro <> (Fornecedor.apply _, Fornecedor.unapply _); 
-	def forInsert = nome ~ cnpj ~ cpf ~ nomeFantasia.? ~ endereco.? ~ complemento.? ~ bairro.? ~ cep.? ~ uf.? ~ cidade.? ~ inscricaoEstadual ~ inscricaoMunicipal ~ fone.? ~ dataCadastro <> ({ t => Fornecedor(None, t._1, t._2, t._3, t._4, t._5, t._6, t._7, t._8, t._9, t._10, t._11, t._12, t._13, t._14)}, { (f: Fornecedor) => Some((f.nome, f.cnpj, f.cpf, f.nomeFantasia, f.endereco, f.complemento, f.bairro, f.cep, f.uf, f.cidade, f.inscricaoEstadual, f.inscricaoMunicipal, f.fone, f.dataCadastro))}); 
-	def forSelect = id.? ~ nome ~ cnpj ~ cpf ~ nomeFantasia.? ~ endereco.? ~ complemento.? ~ bairro.? ~ cep.? ~ uf.? ~ cidade.? ~ inscricaoEstadual ~ inscricaoMunicipal ~ fone.? ~ dataCadastro <> ({ t => Fornecedor(t._1, t._2, t._3, t._4, t._5, t._6, t._7, t._8, t._9, t._10, t._11, t._12, t._13, t._14, t._15)}, { (f: Fornecedor) => Some((f.id, f.nome, f.cnpj, f.cpf, f.nomeFantasia, f.endereco, f.complemento, f.bairro, f.cep, f.uf, f.cidade, f.inscricaoEstadual, f.inscricaoMunicipal, f.fone, f.dataCadastro))});
-	
-}
-
-object FornecedorDAO {
-  
-	lazy val database = Database.forDataSource(DB.getDataSource())
-	
-	/*lazy val findAllQuery = for (entity <- Fornecedores) yield entity
-	def all(): List[Fornecedor] = database.withSession { 
-      findAllQuery.list
-    }*/
-	
-
-	def all():List[Fornecedor] = database.withSession {
-		//( for( a <- Fornecedores ) yield a.* ).list
-		
-		val q = Query(Fornecedores);
-		val list = q.list;
-		list;
+	val fornecedor = {
+		get[Long]("id") ~ get[String]("nome") ~ get[String]("cnpj") ~ get[String]("cpf") ~ get[Option[String]]("nome_fantasia") ~ get[Option[String]]("endereco") ~ 
+		get[Option[String]]("complemento") ~ get[Option[String]]("bairro") ~ get[Option[String]]("cep") ~ get[Option[String]]("uf") ~ get[Option[String]]("cidade") ~ 
+		get[String]("ie") ~ get[String]("im") ~ get[Option[String]]("fone") ~ get[Option[java.util.Date]]("data_cadastro") map {
+		case id ~ nome ~ cnpj ~ cpf ~ nome_fantasia ~ endereco ~ complemento ~ bairro ~ cep ~ uf ~ cidade ~ ie ~ im ~ fone ~ data_cadastro => 
+		  Fornecedor(Some(id), nome, cnpj, cpf, nome_fantasia, endereco, complemento, bairro, cep, uf, cidade, ie, im, fone, data_cadastro)
+		}
 	}
-	
-	def insert(fornecedor:Fornecedor):Long = {
-		val insertedId = Fornecedores.forInsert returning Fornecedores.id insert fornecedor;
-		insertedId;
+
+	def all():List[Fornecedor] = { 
+		DB.withConnection { implicit c => 
+			SQL("select * from fornecedor").as(fornecedor *);
+		}
 	}
-	
-	def update(id:Long, fornecedor:Fornecedor) {
-	  val query = for { f <- Fornecedores if f.id === id } yield f;
-	  query.update(fornecedor);
+
+	def create(fornecedor:Fornecedor):Option[Fornecedor] = {
+		var id: Option[Long] = None;
+
+    	DB.withConnection { implicit c =>
+    	  	var sql:String = "insert into fornecedor (nome, cnpj, cpf, nome_fantasia, endereco, complemento, bairro, cep, uf, cidade, ie, im, fone, data_cadastro) ";
+    	  	sql += "values ({nome}, {cnpj}, {cpf}, {nome_fantasia}, {endereco}, {complemento}, {bairro}, {cep}, {uf}, {cidade}, {ie}, {im}, {fone}, {data_cadastro})"
+    		id = SQL(sql).on('nome -> fornecedor.nome, 'cnpj -> fornecedor.cnpj, 'cpf -> fornecedor.cpf, 'nome_fantasia -> fornecedor.nomeFantasia, 'endereco -> fornecedor.endereco, 'complemento -> fornecedor.complemento, 'bairro -> fornecedor.bairro, 'cep -> fornecedor.cep, 'uf -> fornecedor.uf, 'cidade -> fornecedor.cidade, 'ie -> fornecedor.inscricaoEstadual, 'im -> fornecedor.inscricaoMunicipal, 'fone -> fornecedor.fone, 'data_cadastro -> new Date).executeInsert();
+    	}
+
+    	if (id != None) {
+    		Some(Fornecedor(id, fornecedor.nome, fornecedor.cnpj, fornecedor.cpf, fornecedor.nomeFantasia, fornecedor.endereco, fornecedor.complemento, fornecedor.bairro, fornecedor.cep, fornecedor.uf, fornecedor.cidade, fornecedor.inscricaoEstadual, fornecedor.inscricaoMunicipal, fornecedor.fone, fornecedor.dataCadastro));
+    	} else {
+    		None;
+    	}
 	}
-	
+
 	def delete(id:Long) {
-		val query = for { f <- Fornecedores if f.id === id } yield f;
-		query.delete;
+		DB.withConnection { implicit c =>
+			SQL("delete from fornecedor where id = {id}").on('id -> id).executeUpdate()
+		}
 	}
-	
-	def findById(id:Long):Option[Fornecedor] = {
-		val query = for { 
-		  idq <- Parameters[Long] 
-		  f <- Fornecedores if f.id is idq
-		} yield f;
-		
-		val f:Option[Fornecedor] = Some(query(id).first());
-		f;
-	}  
-  
-  
-	
-	/*
-	//def autoInc = * returning id;
 
-	def insert(fornecedor: Fornecedor):Fornecedor = {
-		Database.forDataSource(DB.getDataSource()) withSession {
-			Fornecedores.autoInc.insert(fornecedor);
-			fornecedor; //retorna??
+	def update(id:Long, fornecedor:Fornecedor) = {
+		DB.withConnection { implicit c =>
+			SQL("update fornecedor set nome = {nome}, cnpj = {cnpj}, cpf = {cpf}, nome_fantasia = {nome_fantasia}, endereco = {endereco}, complemento = {complemento}, bairro = {bairro}, cep = {cep}, uf = {uf}, cidade = {cidade}, ie = {ie}, im = {im}, fone = {fone}, data_cadastro = {data_cadastro} where id = {id}").
+      					on('nome -> fornecedor.nome, 'cnpj -> fornecedor.cnpj, 'cpf -> fornecedor.cpf, 'nome_fantasia -> fornecedor.nomeFantasia, 'endereco -> fornecedor.endereco, 'complemento -> fornecedor.complemento, 'bairro -> fornecedor.bairro, 'cep -> fornecedor.cep, 'uf -> fornecedor.uf, 'cidade -> fornecedor.cidade, 'ie -> fornecedor.inscricaoEstadual, 'im -> fornecedor.inscricaoMunicipal, 'fone -> fornecedor.fone, 'data_cadastro -> fornecedor.dataCadastro, 'id -> id).executeUpdate();
 		}
 	}
-	
-	def update(id:Long, fornecedor: Fornecedor) {
-	  Database.forDataSource(DB.getDataSource()) withSession {
-		  	val objToUpdate: Fornecedor = fornecedor.copy(Some(id));
-			Fornecedores.where(_.id === id).update(objToUpdate);
+
+	def findById(id:Long): Option[Fornecedor] = {
+		DB.withConnection { implicit c =>
+    		val result: Option[Fornecedor] = SQL("select * from fornecedor where id = {id}").on("id" -> id).singleOpt(fornecedor);
+			result;
 		}
 	}
-	
-	def delete(id: Long) {
-	  Database.forDataSource(DB.getDataSource()) withSession {
-		  Fornecedores.where(_.id === id).delete;
-	  }
-	}
-	
-	def all2():List[Fornecedor] = {
-	  Database.forDataSource(DB.getDataSource()) withSession {
-		  Fornecedores.where().li
-	  }
-	}
-	
-	def findByPk(id:Long): Option[Fornecedor] = {
-	  Database.forDataSource(DB.getDataSource()) withSession {
-		  //Fornecedores.f
-	    null;
-	  }
-	}
-	*/
 }

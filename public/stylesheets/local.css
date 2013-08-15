@@ -1,0 +1,11 @@
+div.vale-div {
+  	//border:2px solid;
+  	//vertical-align: middle;
+	//display: table-cell;
+}
+
+span.vale-span {
+  	vertical-align: middle;
+  	text-align: right;
+  	display: inline-block;
+}

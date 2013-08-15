@@ -1,1 +1,121 @@
-@(fornecedorForm: Form[Fornecedor], id:Long)
+@(fornecedorForm: Form[Fornecedor], id:Long)(implicit flash: Flash)
+
+@import helper._ 
+@import helper.twitterBootstrap._
+
+@main("Editar Fornecedor") { 
+	
+	@helper.form(action = routes.FornecedoresApplication.updateFornecedor(id)) {
+		
+		<div class="container">
+			<section id="fluidGridSystem">
+
+				<div class="row-fluid">
+				  <div class="span3 vale-div"><span class="vale-span">ID</span></div>
+				  <div class="span9 vale-div">
+				  	<input type="text" id="id" name="id" size="20" maxlength="20" readonly="readonly" value="@fornecedorForm.get.id">
+				  </div>
+				</div>
+				<div class="row-fluid">
+				  <div class="span3 vale-div"><span class="vale-span">Nome</span></div>
+				  <div class="span9 vale-div">
+				  	<input type="text" class="span6" id="nome" name="nome" size="50" maxlength="100" value="@fornecedorForm.get.nome">
+				  </div>
+				</div>
+				<div class="row-fluid">
+				  <div class="span3 vale-div"><span class="vale-span">Nome Fantasia</span></div>
+				  <div class="span9 vale-div">
+				  	<input type="text" class="span6" id="nomeFantasia" name="nomeFantasia" size="50" maxlength="100" value="@fornecedorForm.get.nomeFantasia">
+				  </div>
+				</div>
+				<div class="row-fluid">
+
+					<div class="span3 vale-div"><span class="vale-span">CNPJ</span></div>
+					<div class="span9">
+					  <div class="span3 vale-div">
+					  	<input type="text" class="span11" id="cnpj" name="cnpj" size="14" maxlength="14" value="@fornecedorForm.get.cnpj">
+					  </div>
+					  <div class="span1 vale-div"><span class="vale-span">CPF</span></div>
+					  <div class="span4 vale-div">
+					  	<input type="text" class="span7" id="cpf" name="cpf" size="11" maxlength="11" value="@fornecedorForm.get.cpf">
+					  </div>
+					</div>
+				
+				</div>
+				<div class="row-fluid">
+				  <div class="span3 vale-div"><span class="vale-span">Endereço</span></div>
+				  <div class="span9 vale-div">
+				  	<input type="text" class="span6" id="endereco" name="endereco" size="50" maxlength="100" value="@fornecedorForm.get.endereco">
+				  </div>
+				</div>
+				<div class="row-fluid">
+				  <div class="span3 vale-div"><span class="vale-span">Complemento</span></div>
+				  <div class="span9 vale-div">
+				  	<input type="text" class="span5" id="complemento" name="complemento" size="50" maxlength="100" value="@fornecedorForm.get.complemento">
+				  </div>
+				</div>
+				<div class="row-fluid">
+				  <div class="span3 vale-div"><span class="vale-span">Bairro</span></div>
+				  <div class="span9 vale-div">
+				  	<input type="text" class="span4" id="bairro" name="bairro" size="25" maxlength="50" value="@fornecedorForm.get.bairro">
+				  </div>
+				</div>
+				<div class="row-fluid">
+
+					<div class="span3 vale-div"><span class="vale-span">CEP</span></div>
+					<div class="span9">
+					  <div class="span3 vale-div">
+					  	<input type="text" class="span8" id="cep" name="cep" size="10" maxlength="8" value="@fornecedorForm.get.cep">
+					  </div>
+					  <div class="span1 vale-div"><span class="vale-span">UF</span></div>
+					  <div class="span3 vale-div">
+					  	<select name="uf" id="uf" class="span7" value="@fornecedorForm.get.uf">
+						  	<option value="RS" @if(fornecedorForm.get.uf.get.equals("RS")) { selected="selected" }>RS</option>
+						  	<option value="SC" @if(fornecedorForm.get.uf.get.equals("SC")) { selected="selected" }>SC</option>
+						  	<option value="PR" @if(fornecedorForm.get.uf.get.equals("PR")) { selected="selected" }>PR</option>
+					  	</select>
+					  </div>
+					</div>
+				
+				</div>
+				<div class="row-fluid">
+				  <div class="span3 vale-div"><span class="vale-span">Cidade</span></div>
+				  <div class="span9 vale-div">
+				  	<input type="text" class="span6" id="cidade" name="cidade" size="25" maxlength="50" value="@fornecedorForm.get.cidade">
+				  </div>
+				</div>
+				<div class="row-fluid">
+				  <div class="span3 vale-div"><span class="vale-span">Inscrição Estadual</span></div>
+				  <div class="span9 vale-div">
+				  	<input type="text" class="span3" id="inscricaoEstadual" name="inscricaoEstadual" size="17" maxlength="15" value="@fornecedorForm.get.inscricaoEstadual">
+				  </div>
+				</div>
+				<div class="row-fluid">
+				  <div class="span3 vale-div"><span class="vale-span">Inscrição Municipal</span></div>
+				  <div class="span9 vale-div">
+				  	<input type="text" class="span3" id="inscricaoMunicipal" name="inscricaoMunicipal" size="17" maxlength="15" value="@fornecedorForm.get.inscricaoMunicipal">
+				  </div>
+				</div>
+				<div class="row-fluid">
+				  <div class="span3 vale-div"><span class="vale-span">Fone</span></div>
+				  <div class="span9 vale-div">
+				  	<input type="text" class="span3" id="fone" name="fone" size="14" maxlength="12" value="@fornecedorForm.get.fone">
+				  </div>
+				</div>
+				<div class="row-fluid">
+				  <div class="span3 vale-div"><span class="vale-span">Data Cadastro</span></div>
+				  <div class="span9 vale-div">
+				  	<input type="text" class="span2" id="dataCadastro" name="dataCadastro" size="10" maxlength="10" readonly="readonly" value="@if(fornecedorForm.get.dataCadastro != None) { @fornecedorForm.get.dataCadastro.get.format("dd/MM/yyyy") }">
+				  </div>
+				</div>
+				<div class="row-fluid">
+				  	<div class="span12" style="text-align:center">
+						<input type="submit" class="btn primary" value='Alterar'>
+					</div>
+				</div>
+				
+			</section>
+		</div>
+		
+	}
+}
