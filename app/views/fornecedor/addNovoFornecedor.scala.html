@@ -1,4 +1,4 @@
-@(fornecedorForm: Form[Fornecedor])(implicit flash: Flash)
+@(fornecedorForm: Form[Fornecedor], ufs:Map[String, String])(implicit flash: Flash)
 
 @import helper._ 
 @import helper.twitterBootstrap._
@@ -72,6 +72,7 @@
 					</div>
 				
 				</div>
+				
 				<div class="row-fluid">
 				  <div class="span3 vale-div"><span class="vale-span">Cidade</span></div>
 				  <div class="span9 vale-div">
