@@ -55,7 +55,7 @@ object FornecedoresApplication extends Controller {
   }
 
   def fornecedores = Action { implicit request =>
-	  Ok(views.html.fornecedor.listFornecedor(Fornecedores.all(), fornecedorForm));
+	  Ok(views.html.fornecedor.listFornecedor(fornecedorForm, Fornecedores.all()));
   }
 
   def addNovoFornecedor = Action { implicit request =>
@@ -64,6 +64,10 @@ object FornecedoresApplication extends Controller {
   
   def getUfs():Map[String, String] = {
     ufs;
+  }
+  
+  def modalListagemUf = Action { implicit request =>
+	  Ok(views.html.fornecedor.modalListUf(fornecedorForm, getUfs));
   }
 
   def saveNovoFornecedor = Action {
@@ -120,6 +124,10 @@ object FornecedoresApplication extends Controller {
       				.flashing(Flash(fornecedorForm.data) + ("success" -> "Fornecedor atualizado com sucesso!"));
       		}
       	)
+  }
+  
+  def search(pageNumber:Int, pageSize:Int) = Action { implicit request =>
+	  Ok(views.html.fornecedor.searchFornecedor(fornecedorForm, Fornecedores.search(pageNumber, pageSize)));
   }
 
 }

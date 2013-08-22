@@ -4,6 +4,8 @@
 @import helper.twitterBootstrap._
 
 @main("Adicionar Novo Fornecedor") { 
+
+	<script src="@routes.Assets.at("javascripts/fornecedor/fornecedor.js")" type="text/javascript"></script>
 	
 	@helper.form(action = routes.FornecedoresApplication.saveNovoFornecedor()) { 
 	
@@ -64,10 +66,11 @@
 					  <div class="span1 vale-div"><span class="vale-span">UF</span></div>
 					  <div class="span3 vale-div">
 					  	<select name="uf" id="uf" class="span7">
-						  	<option value="RS">RS</option>
-						  	<option value="SC">SC</option>
-						  	<option value="PR">PR</option>
+							@for(t <- ufs) {
+						  	<option value="@t._1">@t._2</option>
+							}
 					  	</select>
+					  	<a href="#modalListUf" role="button" class="btn" data-toggle="modal" data-remote="@routes.FornecedoresApplication.modalListagemUf" data-remote-target="#modalListUf">...</a>
 					  </div>
 					</div>
 				
@@ -105,6 +108,24 @@
 				
 			</section>
 		</div>
+
+		<div class="modal fade" id="modalListUf" tabindex="-1" role="dialog" aria-labelledby="modalListUfLabel" aria-hidden="true" style="width:900px; position:absolute; left:35%;">
+		    <div class="modal-dialog">
+		      <div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		          <h4 class="modal-title">Modal title</h4>
+		        </div>
+		        <div class="modal-body">
+		          ...
+		        </div>
+		        <div class="modal-footer">
+		          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		          <button type="button" class="btn btn-primary">Save changes</button>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
 		
 	}
 }

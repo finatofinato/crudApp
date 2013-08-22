@@ -8,6 +8,7 @@ import scala.Some
 import play.api.db.DB
 import play.api.db._
 import play.api.Play.current
+import models.Page
 
 case class Fornecedor(id: Option[Long], 
 						nome:String, 
@@ -25,7 +26,7 @@ case class Fornecedor(id: Option[Long],
 						fone:Option[String], 
 						dataCadastro:Option[java.util.Date])
 
-object Fornecedores {
+object Fornecedores extends PaginationModel {
 
 	val fornecedor = {
 		get[Long]("id") ~ get[String]("nome") ~ get[String]("cnpj") ~ get[String]("cpf") ~ get[Option[String]]("nome_fantasia") ~ get[Option[String]]("endereco") ~ 
@@ -40,6 +41,16 @@ object Fornecedores {
 		DB.withConnection { implicit c => 
 			SQL("select * from fornecedor").as(fornecedor *);
 		}
+	}
+	
+	def search(pageNumber:Int, pageSize:Int):Page[Fornecedor] = {
+	  println("============> pageNumber: "+pageNumber);
+	  println("============> pageSize: "+pageSize);
+	  
+	  var sql:String = "select * from fornecedor where nome like {nome}";
+	  val parameters: scala.collection.immutable.Seq[(Any, ParameterValue[_])] = scala.collection.immutable.Seq("nome" -> "%fina%");
+	  val page:Page[Fornecedor] = listByParameters[Fornecedor](sql, parameters, fornecedor, pageNumber, pageSize);
+	  page;
 	}
 
 	def create(fornecedor:Fornecedor):Option[Fornecedor] = {

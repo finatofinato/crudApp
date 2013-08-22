@@ -8,18 +8,29 @@ GET     /                           controllers.Application.index
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
+###################################################################################################
+# METHOD		url que vai aparecer no browser					metodo do controller
+###################################################################################################
+
+#testeApp
+GET		/testes										controllers.TesteApplication.testes
+GET		/testes/modalListTeste						controllers.TesteApplication.modalListTeste
+
 #crudApp
-GET		/persons					controllers.Application.persons
-GET 	/persons/person				controllers.Application.addNewPerson
-POST	/persons/person				controllers.Application.saveNewPerson
-POST	/persons/person/delete/:id	controllers.Application.deletePerson(id:Long)
-GET		/persons/person/:id			controllers.Application.editPerson(id:Long)
-POST	/persons/person/:id			controllers.Application.updatePerson(id:Long)
+GET		/persons									controllers.Application.persons
+GET 	/persons/person								controllers.Application.addNewPerson
+POST	/persons/person								controllers.Application.saveNewPerson
+POST	/persons/person/delete/:id					controllers.Application.deletePerson(id:Long)
+GET		/persons/person/:id							controllers.Application.editPerson(id:Long)
+POST	/persons/person/:id							controllers.Application.updatePerson(id:Long)
 
 #fornecedorApp
-GET		/fornecedores						controllers.FornecedoresApplication.fornecedores
-GET 	/fornecedores/fornecedor			controllers.FornecedoresApplication.addNovoFornecedor
-POST	/fornecedores/fornecedor			controllers.FornecedoresApplication.saveNovoFornecedor
-POST	/fornecedores/fornecedor/delete/:id	controllers.FornecedoresApplication.deleteFornecedor(id:Long)
-GET		/fornecedores/fornecedor/:id		controllers.FornecedoresApplication.editFornecedor(id:Long)
-POST	/fornecedores/fornecedor/:id		controllers.FornecedoresApplication.updateFornecedor(id:Long)
+GET		/fornecedores								controllers.FornecedoresApplication.fornecedores
+GET		/fornecedores/search						controllers.FornecedoresApplication.search(pageNumber:Int, pageSize:Int)
+GET 	/fornecedores/fornecedor					controllers.FornecedoresApplication.addNovoFornecedor
+POST	/fornecedores/fornecedor					controllers.FornecedoresApplication.saveNovoFornecedor
+POST	/fornecedores/fornecedor/delete/:id			controllers.FornecedoresApplication.deleteFornecedor(id:Long)
+#fornecedorApp.modalListagemUf
+GET		/fornecedores/fornecedor/listUf				controllers.FornecedoresApplication.modalListagemUf
+GET		/fornecedores/fornecedor/:id				controllers.FornecedoresApplication.editFornecedor(id:Long)
+POST	/fornecedores/fornecedor/:id				controllers.FornecedoresApplication.updateFornecedor(id:Long)

@@ -1,0 +1,45 @@
+@(fornecedorForm: Form[Fornecedor], fornecedores: Page[Fornecedor])(implicit flash: Flash)
+
+@import helper._
+
+
+@main("Pesquisa de Fornecedores") {
+
+<script src="@routes.Assets.at("javascripts/fornecedor/fornecedor.js")" type="text/javascript"></script>
+
+<form name="formSearchFornecedor" id="formSearchFornecedor">
+
+	<div id="divTituloSearchFornecedor" class="panel-body">
+		
+		<table class="table table-striped table-bordered table-hover table-condensed" style="width:800px">
+			<thead><tr><th>#</th><th>Nome Fantasia - Nome</th><th>I.E.</th><th>I.M.</th><th>Data Cadastro</th></tr></thead>
+	        @fornecedores.items.map { fornecedor =>
+			<tbody>
+		    	<tr>
+		        	<td>
+		                @fornecedor.id.get
+		            </td>
+		            <td>
+		                @fornecedor.nomeFantasia - @fornecedor.nome
+		            </td>
+		            <td>
+		                @fornecedor.inscricaoEstadual
+		            </td>
+		            <td>
+		                @fornecedor.inscricaoMunicipal
+		            </td>
+		            <td>
+		            @if(fornecedor.dataCadastro != None) {
+		                	@fornecedor.dataCadastro.get.format("dd/MM/yyyy")
+					} else {
+						-
+					}
+		            </td>
+		        </tr>
+		        }
+	        <tbody>
+	    </table>
+	</div>
+</form>
+
+}
