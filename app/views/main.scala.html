@@ -20,37 +20,49 @@
     
     <body>
 		<div class="divMainMenus">
-		  <div class="btn-group">
-		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-		      Pessoas
-		      <span class="caret"></span>
-		    </button>
-		    <ul class="dropdown-menu">
-		      <li><a href="@routes.Application.persons">Listar</a></li>
-		      <li><a href="@routes.Application.addNewPerson">Criar</a></li>
-		    </ul>
+			<div class="btn-group">
+			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			     Learning
+			  </button>
+			  <ul class="dropdown-menu">
+	            <li><a href="#">Login</a></li>
+	            <li class="dropdown-submenu">
+	                <a tabindex="-1" href="#">Pessoas</a>
+	                <ul class="dropdown-menu">
+	                    <li><a href="@routes.Application.persons">Listar</a></li>
+		      			<li><a href="@routes.Application.addNewPerson">Criar</a></li>
+	                </ul>
+	            </li>
+	            <li class="dropdown-submenu">
+	                <a tabindex="-1" href="#">Fornecedores</a>
+	                <ul class="dropdown-menu">
+	                    <li><a href="@routes.FornecedoresApplication.fornecedores">Listar</a></li>
+						<li><a href="@routes.FornecedoresApplication.addNovoFornecedor">Criar</a></li>
+						<li><a href="@routes.FornecedoresApplication.search(0,3)">Pesquisar</a></li>
+	                </ul>
+	            </li>
+	            <li class="dropdown-submenu">
+	                <a tabindex="-1" href="#">Testes</a>
+	                <ul class="dropdown-menu">
+	                    <li><a href="@routes.TesteApplication.testes">Listar</a></li>
+	                </ul>
+	            </li>
+			  </ul>
 		  </div>
-		  <div class="btn-group">
-		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-		      Fornecedores
-		      <span class="caret"></span>
-		    </button>
-		    <ul class="dropdown-menu">
-		      <li><a href="@routes.FornecedoresApplication.fornecedores">Listar</a></li>
-		      <li><a href="@routes.FornecedoresApplication.addNovoFornecedor">Criar</a></li>
-		      <li><a href="@routes.FornecedoresApplication.search(0,3)">Pesquisar</a></li>
-		    </ul>
-		  </div>
-		  <div class="btn-group">
-		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-		      Testes
-		      <span class="caret"></span>
-		    </button>
-		    <ul class="dropdown-menu">
-		      <li><a href="@routes.TesteApplication.testes">Listar</a></li>
-		    </ul>
-		  </div>
-		</div>
+
+			<div class="btn-group">
+			  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			    Vale
+			  </button>
+			  <ul class="dropdown-menu">
+	            <li class="dropdown-submenu">
+	                <a tabindex="-1" href="#">UF</a>
+	                <ul class="dropdown-menu">
+	                    <li><a href="@routes.UnidadeFederativaApplication.unidadesFederativas">Listar</a></li>
+		      			<li><a href="@routes.UnidadeFederativaApplication.addUnidadeFederativa">Criar</a></li>
+	                </ul>
+	            </li>
+		  </div>		
 		
 		<div>
 			<br>

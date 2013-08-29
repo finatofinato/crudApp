@@ -34,3 +34,14 @@ POST	/fornecedores/fornecedor/delete/:id			controllers.FornecedoresApplication.d
 GET		/fornecedores/fornecedor/listUf				controllers.FornecedoresApplication.modalListagemUf
 GET		/fornecedores/fornecedor/:id				controllers.FornecedoresApplication.editFornecedor(id:Long)
 POST	/fornecedores/fornecedor/:id				controllers.FornecedoresApplication.updateFornecedor(id:Long)
+
+#UnidadeFederativaApp
+GET		/unidadesfederativas								controllers.UnidadeFederativaApplication.unidadesFederativas
+GET		/unidadesfederativas/search							controllers.UnidadeFederativaApplication.search(pageNumber:Int, pageSize:Int)
+GET 	/unidadesfederativas/unidadefederativa				controllers.UnidadeFederativaApplication.addUnidadeFederativa
+POST	/unidadesfederativas/unidadefederativa				controllers.UnidadeFederativaApplication.saveUnidadeFederativa
+POST	/unidadesfederativas/unidadefederativa/delete/:id	controllers.UnidadeFederativaApplication.deleteUnidadeFederativa(id:Long)
+#UnidadeFederativaApp.modalListagemPaises
+GET		/unidadesfederativas/unidadefederativa/listpaises	controllers.UnidadeFederativaApplication.modalListagemPaises
+GET		/unidadesfederativas/unidadefederativa/:id			controllers.UnidadeFederativaApplication.editUnidadeFederativa(id:Long)
+POST	/unidadesfederativas/unidadefederativa/:id			controllers.UnidadeFederativaApplication.updateUnidadeFederativa(id:Long)

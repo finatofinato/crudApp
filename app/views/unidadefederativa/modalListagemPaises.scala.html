@@ -1,22 +1,22 @@
-@(fornecedorForm: Form[Fornecedor], ufs:Map[String, String])(implicit flash: Flash)
+@(unidadeFederativaForm: Form[UnidadeFederativa], paises:Map[Long, String])(implicit flash: Flash)
 
 @import helper._
 
 	<table class="table table-striped table-bordered table-hover table-condensed" style="width:800px">
-		<thead><tr><th>Sigla</th><th>Descrição</th><th>&nbsp;</th></tr></thead>
-		@for(t <- ufs) {
+		<thead><tr><th>#</th><th>Descrição</th><th>&nbsp;</th></tr></thead>
+		@for(pais <- paises) {
 		<tbody>
 	    	<tr>
 	        	<td>
-	                @t._1
+	                @pais._1
 	            </td>
 	            <td>
-	                @t._2
+	                @pais._2
 	            </td>
 	            <td align="center">
 	            	<div align="center">
 		                <div align="center">
-		                    <input type="button" name="btnSelecionarUf" id="btnSelecionarUf" value="Selecionar" onclick="fnSelecionaUf('@t._1')">
+		                    <input type="button" name="btnSelecionarPais" id="btnSelecionarPais" value="Selecionar" onclick="fnSelecionaPais('@pais._1')">
                 		</div>
 	                </div>
 	            </td>
@@ -24,4 +24,3 @@
 	        }
         <tbody>
     </table>
-

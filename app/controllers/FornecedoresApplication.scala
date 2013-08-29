@@ -1,17 +1,18 @@
 package controllers
 
-import play.api.data._
-import play.api.data.Forms._
-import play.api.data.format.Formats._
+import models.Fornecedor
+import models.Fornecedores
+import play.api.data.Form
+import play.api.data.Forms.boolean
+import play.api.data.Forms.date
+import play.api.data.Forms.longNumber
+import play.api.data.Forms.mapping
+import play.api.data.Forms.nonEmptyText
+import play.api.data.Forms.optional
+import play.api.data.Forms.text
 import play.api.mvc.Action
 import play.api.mvc.Controller
-import play.data.validation.Validation
-import models.Fornecedor
-import anorm.Pk
-import anorm.NotAssigned
-import models.Fornecedores
 import play.api.mvc.Flash
-import play.mvc.Http
 
 object FornecedoresApplication extends Controller {
 
@@ -107,8 +108,6 @@ object FornecedoresApplication extends Controller {
     	val fFornecedor:Form[Fornecedor] = fornecedorForm.bindFromRequest;
       	fFornecedor.fold(
       		errors => {
-      		  println(errors);
-      		  
       			Redirect(routes.FornecedoresApplication.editFornecedor(id))
       				.flashing(Flash(fornecedorForm.data) + ("error" -> "Erro ao alterar Fornecedor!"));
       			//BadRequest(views.html.fornecedor.listFornecedor(Fornecedores.all(), errors))
@@ -127,7 +126,9 @@ object FornecedoresApplication extends Controller {
   }
   
   def search(pageNumber:Int, pageSize:Int) = Action { implicit request =>
-	  Ok(views.html.fornecedor.searchFornecedor(fornecedorForm, Fornecedores.search(pageNumber, pageSize)));
+  	var map = scala.collection.mutable.Map[String, Any]();
+  	map.put("nome", "%finato%");
+  	Ok(views.html.fornecedor.searchFornecedor(fornecedorForm, Fornecedores.search(map, pageNumber, pageSize)));
   }
 
 }

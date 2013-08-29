@@ -42,16 +42,6 @@ object Fornecedores extends PaginationModel {
 			SQL("select * from fornecedor").as(fornecedor *);
 		}
 	}
-	
-	def search(pageNumber:Int, pageSize:Int):Page[Fornecedor] = {
-	  println("============> pageNumber: "+pageNumber);
-	  println("============> pageSize: "+pageSize);
-	  
-	  var sql:String = "select * from fornecedor where nome like {nome}";
-	  val parameters: scala.collection.immutable.Seq[(Any, ParameterValue[_])] = scala.collection.immutable.Seq("nome" -> "%fina%");
-	  val page:Page[Fornecedor] = listByParameters[Fornecedor](sql, parameters, fornecedor, pageNumber, pageSize);
-	  page;
-	}
 
 	def create(fornecedor:Fornecedor):Option[Fornecedor] = {
 		var id: Option[Long] = None;
@@ -87,5 +77,22 @@ object Fornecedores extends PaginationModel {
     		val result: Option[Fornecedor] = SQL("select * from fornecedor where id = {id}").on("id" -> id).singleOpt(fornecedor);
 			result;
 		}
+	}
+	
+	def search(mapParams:scala.collection.mutable.Map[String, Any], pageNumber:Int, pageSize:Int):Page[Fornecedor] = {
+		//var sql:String = "select * from fornecedor where nome like {nome}";
+		//val parameters: scala.collection.immutable.Seq[(Any, ParameterValue[_])] = scala.collection.immutable.Seq("nome" -> "%fina%");
+		var sql:String = "select * from fornecedor where 1 = 1 ";
+		
+		if (mapParams.contains("nome")) {
+		  //mapParams.put("nome", "%" + mapParams.get("nome").get + "%");
+		  sql += " and nome like {nome} ";
+		}
+		
+		val convertedMap = mapParams.map(x => (x._1 -> anorm.toParameterValue(x._2))).toSeq;
+		
+		val parameters: scala.collection.immutable.Seq[(Any, ParameterValue[Any])] = scala.collection.immutable.Seq(convertedMap: _*);
+		val page:Page[Fornecedor] = listByParameters[Fornecedor](sql, parameters, fornecedor, pageNumber, pageSize);
+		page;
 	}
 }

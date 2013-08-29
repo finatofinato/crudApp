@@ -23,12 +23,16 @@ trait PaginationModel {
 	//https://markatta.com/codemonkey/blog/2012/08/10/unparsing-with-anorm-in-play-framework-2/
 	//http://stackoverflow.com/questions/15904145/why-the-scala-to-expand-a-seq-into-variable-length-argument-list-does-not-wo
 	//http://stackoverflow.com/questions/15591479/dynamic-sql-parameters-with-anorm-and-scala-play-framework
-	def listByParameters[T](sql:String, parameters:Seq[(Any, ParameterValue[_])], rowParser:anorm.RowParser[T], page:Int = 0, pageSize:Int = 2): Page[T] = {
+	//*** https://markatta.com/codemonkey/blog/2012/06/16/parsing-results-with-anorm-in-play-framework-2/
+	def listByParameters[T](sql:String, parameters:Seq[(Any, ParameterValue[Any])], rowParser:anorm.RowParser[T], page:Int = 0, pageSize:Int = 2): Page[T] = {
 
 	  val offest = pageSize * page;
 		
 		DB.withConnection { implicit connection =>
 		  val result = SQL(sql).on(parameters:_*).as(rowParser *); //bem possivel ter q alterar os parameters
+		  
+		  println(sql);
+		  println(parameters);
 		
 		  val totalRows = SQL(
 		    " select count(*) from ("+ sql + ") "
@@ -36,5 +40,16 @@ trait PaginationModel {
 		
 		      Page(result, page, offest, totalRows);
 		}
+	}
+	
+	def findWhere[T](sql: String, parameters: Seq[(Any, ParameterValue[Any])], rowParser:RowParser[T]): Seq[T] = {
+		DB.withConnection { implicit connection =>
+	    	val query = sql + " ";
+	    	if (!parameters.isEmpty) {
+	    		parameters.map { case (col, _) => col + " = {" + col + "}" }.mkString(" AND ")
+	    	}
+	
+	    	SQL(query).on(parameters:_*).as(rowParser *)
+	  	}
 	}
 }
