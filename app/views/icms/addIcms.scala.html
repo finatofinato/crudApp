@@ -1,0 +1,131 @@
+@(icmsForm: Form[Icms], unidadesFederativas:Map[Long, String], paises:Map[Long, String])(implicit flash: Flash)
+
+@import helper._ 
+@import helper.twitterBootstrap._
+
+@main("Adicionar ICMS") { 
+
+	<script src="@routes.Assets.at("javascripts/icms/icms.js")" type="text/javascript"></script>
+	
+	@helper.form(action = routes.IcmsApplication.saveIcms()) { 
+	
+		<div class="container">
+			<section id="fluidGridSystem">
+				<div class="row-fluid">
+				  <div class="span3 vale-div"><span class="vale-span">UF Origem</span></div>
+				  <div class="span4 vale-div">
+				  	<input type="text" id="ufOrigemId" name="ufOrigemId" size="5">
+				  </div>
+				  <div class="span4 vale-div">
+				  	<a href="#modalListagemUnidadesFederativasOrigem" role="button" class="btn" data-toggle="modal" data-remote="@routes.IcmsApplication.modalListagemUnidadesFederativasOrigem" data-remote-target="#modalListagemUnidadesFederativasOrigem">...</a>
+				  </div>
+				</div>
+				<div class="row-fluid">
+				  <div class="span3 vale-div"><span class="vale-span">UF Destino</span></div>
+				  <div class="span4 vale-div">
+				  	<input type="text" id="ufDestinoId" name="ufDestinoId" size="5">
+				  </div>
+				  <div class="span4 vale-div">
+				  	<a href="#modalListagemUnidadesFederativasDestino" role="button" class="btn" data-toggle="modal" data-remote="@routes.IcmsApplication.modalListagemUnidadesFederativasDestino" data-remote-target="#modalListagemUnidadesFederativasDestino">...</a>
+				  </div>
+				</div>
+				<div class="row-fluid">
+				  <div class="span3 vale-div"><span class="vale-span">Aliquota Interna</span></div>
+				  <div class="span9 vale-div">
+				  	<input type="text" class="span6" id="aliquotaInterna" name="aliquotaInterna" size="10" maxlength="8">
+				  </div>
+				</div>
+				<div class="row-fluid">
+				  <div class="span3 vale-div"><span class="vale-span">Aliquota Interestadual</span></div>
+				  <div class="span9 vale-div">
+				  	<input type="text" class="span6" id="aliquotaInterestadual" name="aliquotaInterestadual" size="20" maxlength="8">
+				  </div>
+				</div>
+				<div class="row-fluid">
+				  <div class="span3 vale-div"><span class="vale-span">Base de Cálculo</span></div>
+				  <div class="span9 vale-div">
+				  	<input type="text" class="span6" id="baseCalculo" name="baseCalculo" size="30" maxlength="21">
+				  </div>
+				</div>
+				<div class="row-fluid">
+				  <div class="span3 vale-div"><span class="vale-span">Alíquota ST</span></div>
+				  <div class="span9 vale-div">
+				  	<input type="text" class="span6" id="aliquotaSt" name="aliquotaSt" size="20" maxlength="8">
+				  </div>
+				</div>
+				<div class="row-fluid">
+				  <div class="span3 vale-div"><span class="vale-span">Base de Cálculo Alíquota ST</span></div>
+				  <div class="span9 vale-div">
+				  	<input type="text" class="span6" id="baseCalculoAliquotaSt" name="baseCalculoAliquotaSt" size="30" maxlength="21">
+				  </div>
+				</div>
+				<div class="row-fluid">
+				  <div class="span3 vale-div"><span class="vale-span">NCM</span></div>
+				  <div class="span9 vale-div">
+				  	<input type="text" class="span6" id="ncmId" name="ncmId" size="20" maxlength="10">
+				  </div>
+				</div>
+				<div class="row-fluid">
+				  	<div class="span12" style="text-align:center">
+						<input type="submit" class="btn primary" value='Salvar'>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<div class="modal fade" id="modalListagemUnidadesFederativasOrigem" tabindex="-1" role="dialog" aria-labelledby="modalListagemUnidadesFederativasOrigemLabel" aria-hidden="true" style="width:900px; position:absolute; left:35%;">
+		    <div class="modal-dialog">
+		      <div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		          <h4 class="modal-title">Listagem Unidades Federativas Origem</h4>
+		        </div>
+		        <div class="modal-body">
+		          ...
+		        </div>
+		        <div class="modal-footer">
+		          <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+		          <button type="button" class="btn btn-primary">Salvar</button>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		
+		<div class="modal fade" id="modalListagemUnidadesFederativasDestino" tabindex="-1" role="dialog" aria-labelledby="modalListagemUnidadesFederativasDestinoLabel" aria-hidden="true" style="width:900px; position:absolute; left:35%;">
+		    <div class="modal-dialog">
+		      <div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		          <h4 class="modal-title">Listagem Unidades Federativas Destino</h4>
+		        </div>
+		        <div class="modal-body">
+		          ...
+		        </div>
+		        <div class="modal-footer">
+		          <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+		          <button type="button" class="btn btn-primary">Salvar</button>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		  
+		  <div class="modal fade" id="modalListagemPaises" tabindex="-1" role="dialog" aria-labelledby="modalListagemPaisesLabel" aria-hidden="true" style="width:900px; position:absolute; left:35%;">
+		    <div class="modal-dialog">
+		      <div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		          <h4 class="modal-title">Listagem Países</h4>
+		        </div>
+		        <div class="modal-body">
+		          ...
+		        </div>
+		        <div class="modal-footer">
+		          <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+		          <button type="button" class="btn btn-primary">Salvar</button>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		
+	}
+}

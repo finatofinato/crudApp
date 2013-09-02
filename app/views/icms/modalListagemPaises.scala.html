@@ -1,0 +1,26 @@
+@(icmsForm: Form[Icms], paises:Map[Long, String])(implicit flash: Flash)
+
+@import helper._
+
+	<table class="table table-striped table-bordered table-hover table-condensed" style="width:800px">
+		<thead><tr><th>#</th><th>Descrição</th><th>&nbsp;</th></tr></thead>
+		@for(pais <- paises) {
+		<tbody>
+	    	<tr>
+	        	<td>
+	                @pais._1
+	            </td>
+	            <td>
+	                @pais._2
+	            </td>
+	            <td align="center">
+	            	<div align="center">
+		                <div align="center">
+		                    <input type="button" name="btnSelecionarPais" id="btnSelecionarPais" value="Selecionar" onclick="fnSelecionaPais('@pais._1')">
+                		</div>
+	                </div>
+	            </td>
+	        </tr>
+	        }
+        <tbody>
+    </table>

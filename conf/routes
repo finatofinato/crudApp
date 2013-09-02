@@ -45,3 +45,16 @@ POST	/unidadesfederativas/unidadefederativa/delete/:id	controllers.UnidadeFedera
 GET		/unidadesfederativas/unidadefederativa/listpaises	controllers.UnidadeFederativaApplication.modalListagemPaises
 GET		/unidadesfederativas/unidadefederativa/:id			controllers.UnidadeFederativaApplication.editUnidadeFederativa(id:Long)
 POST	/unidadesfederativas/unidadefederativa/:id			controllers.UnidadeFederativaApplication.updateUnidadeFederativa(id:Long)
+
+
+#IcmsApp
+GET		/icmss												controllers.IcmsApplication.icmss
+GET 	/icmss/icms											controllers.IcmsApplication.addIcms
+POST	/icmss/icms											controllers.IcmsApplication.saveIcms
+POST	/icmss/icms/delete/:id								controllers.IcmsApplication.deleteIcms(id:Long)
+#IcmsApp.modalListagemUnidadesFederativas
+GET		/icmss/icms/listunidadesfederativasorigem			controllers.IcmsApplication.modalListagemUnidadesFederativasOrigem
+GET		/icmss/icms/listunidadesfederativasdestino			controllers.IcmsApplication.modalListagemUnidadesFederativasDestino
+GET		/icmss/icms/listpaises								controllers.IcmsApplication.modalListagemPaises
+GET		/icmss/icms/:id										controllers.IcmsApplication.editIcms(id:Long)
+POST	/icmss/icms/:id										controllers.IcmsApplication.updateIcms(id:Long)

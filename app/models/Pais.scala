@@ -15,8 +15,8 @@ case class Pais(id: Option[Long], descricao:String, descricaoNacionalidade:Optio
 object Paises extends PaginationModel {
 
 	val pais = {
-		get[Long]("id") ~ get[String]("descricao") ~ get[String]("descricaonacionalidade") map {
-			case id ~ descricao ~ descricaonacionalidade => Pais(Some(id), descricao, Some(descricaonacionalidade)) 
+		get[Long]("id") ~ get[String]("descricao") ~ get[Option[String]]("descricaonacionalidade") map {
+			case id ~ descricao ~ descricaonacionalidade => Pais(Some(id), descricao, descricaonacionalidade) 
 		}
 	}
 	
@@ -26,16 +26,6 @@ object Paises extends PaginationModel {
 		}
 	}
 	
-	//TODO
-	def search(pageNumber:Int, pageSize:Int):Page[Pais] = {
-		var sql:String = "select * from PAIS where DESCRICAO like {descricao}";
-		
-		val map:Map[String, Any] = Map("a" -> 1, "b" -> 2, "c" -> "A");
-		
-		val parameters: scala.collection.immutable.Seq[(Any, ParameterValue[Any])] = scala.collection.immutable.Seq('descricao -> "%finato%");
-		val page:Page[Pais] = listByParameters[Pais](sql, parameters, pais, pageNumber, pageSize);
-		page;
-	}
 
 	def create(pais:Pais):Option[Pais] = {
 		var id: Option[Long] = None;
@@ -72,4 +62,14 @@ object Paises extends PaginationModel {
 		}
 	}
 	
+	//TODO
+	def search(pageNumber:Int, pageSize:Int):Page[Pais] = {
+		var sql:String = "select * from PAIS where DESCRICAO like {descricao}";
+	
+	val map:Map[String, Any] = Map("a" -> 1, "b" -> 2, "c" -> "A");
+	
+	val parameters: scala.collection.immutable.Seq[(Any, ParameterValue[Any])] = scala.collection.immutable.Seq('descricao -> "%finato%");
+	val page:Page[Pais] = listByParameters[Pais](sql, parameters, pais, pageNumber, pageSize);
+	page;
+	}
 }
